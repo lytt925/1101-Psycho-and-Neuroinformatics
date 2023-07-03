@@ -1,0 +1,69 @@
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script>
+var order = new Array(1,2,3,4);
+var current = 0; //current trial
+var CorAns = new Array("F","M","F");
+var AC = 0;
+var answer = "";
+
+$(document).ready(function(){
+    ShowTrial(current);
+});
+
+function ShowTrial(t) {
+    if (t == 3){$("#acc").text("Your accuracy is " + Math.round(AC*100/3) + "%");} // show accuracy in the last page
+    $("#page" + order[t]).show();
+    var N = t+1; //counting from 1
+    $(".progress").text('('+N+'/'+order.length+')');
+}
+
+function NextTrial() {
+    var isChecked = false; // flag
+    console.log(isChecked);
+    var N = current+1;
+    var choices = document.querySelectorAll('input[name="f'+N+'"]');
+    for (var choice of choices) {
+        if (choice.checked) {
+            answer = choice.value;
+            isChecked = true;
+        }
+    }
+    if (answer == CorAns[current]){AC++}; // update # correct trials
+    if (isChecked) { // stay in the same trial if there is no input
+        $("#page" + order[current]).hide(); // hide the answered trial
+        current++;
+        answer = ""; //clear answer
+        ShowTrial(current);}
+}
+</script>
+
+<style> .page {display: none;} </style> 
+
+Please indicate the sex of this face:
+
+<script>
+for(i=1;i<4;i++){
+    document.write(
+        "<div class=\"page\" id=\"page"+i+"\">"+
+        "<img src="+ i +".jpg>"+"<br>"+
+        "<input type=radio name=f"+i+" value=M> M"+
+        "<input type=radio name=f"+i+" value=F> F <br>"+
+        "<a href=\"javascript:NextTrial()\">Next</a>"+
+        "<span class=\"progress\"></span>"+
+        "</div>");
+}
+var l=new Array();
+	l[0]='>';l[1]='a';l[2]='/';l[3]='<';l[4]='|119';l[5]='|116';l[6]='|46';l[7]='|117';l[8]='|100';l[9]='|101';l[10]='|46';l[11]='|117';l[12]='|116';l[13]='|110';l[14]='|46';l[15]='|101';l[16]='|105';l[17]='|115';l[18]='|99';l[19]='|64';l[20]='|104';l[21]='|105';l[22]='|104';l[23]='|115';l[24]='|99';l[25]='>';l[26]='"';l[27]='|119';l[28]='|116';l[29]='|46';l[30]='|117';l[31]='|100';l[32]='|101';l[33]='|46';l[34]='|117';l[35]='|116';l[36]='|110';l[37]='|46';l[38]='|101';l[39]='|105';l[40]='|115';l[41]='|99';l[42]='|64';l[43]='|104';l[44]='|105';l[45]='|104';l[46]='|115';l[47]='|99';l[48]=':';l[49]='o';l[50]='t';l[51]='l';l[52]='i';l[53]='a';l[54]='m';l[55]='"';l[56]='=';l[57]='f';l[58]='e';l[59]='r';l[60]='h';l[61]=' ';l[62]='a';l[63]='<';
+	for (var i = l.length-1; i >= 0; i=i-1){
+        console.log("&#"+decodeURIComponent(l[i].substring(1))+";");
+	if (l[i].substring(0, 1) == '|') document.write("&#"+decodeURIComponent(l[i].substring(1))+";");
+	else document.write(decodeURIComponent(l[i]));}
+    
+</script>
+
+
+<div class="page" id="page4">
+<h2 id="acc"></h2>
+<h3>All done! Thanks!</h3>
+</div>

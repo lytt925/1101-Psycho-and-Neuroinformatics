@@ -1,0 +1,56 @@
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script>
+var order = new Array(1,2,3,4);
+var current = 0; //current trial
+var CorAns = new Array("F","M","F")
+var AC = 0
+
+$(document).ready(function(){
+ ShowTrial(current);
+});
+
+function ShowTrial(t) {
+    if (t < 3){
+        $("img").attr("src",order[t]+".jpg");
+        var N = t+1; //counting from 1
+        $(".progress").text('('+N+'/'+order.length+')');
+    }
+    else{
+        $("#pic").hide();
+        $("#acc").text("Your accuracy is " + Math.round(AC*100/3) + "%");
+        $("#done").show();}
+}
+
+function NextTrial() {
+    var choices = document.querySelectorAll('input');
+    for (var choice of choices) {
+        if (choice.checked) {
+            answer = choice.value;
+            break;
+        }
+    }
+    if (answer == CorAns[current]){AC++}
+    current++;
+    ShowTrial(current);
+}
+</script>
+
+<style> #done {display: none;} </style> 
+
+Please indicate the sex of this face:
+
+<div class="page" id="pic">
+<img><br>
+<input type=radio name=f1 value=M> M
+<input type=radio name=f1 value=F> F <br>
+<a href="javascript:NextTrial()">Next</a>
+<p></p>
+<span class="progress"></span>
+</div>
+
+<div class="page" id="done">
+<h2 id="acc"></h2>
+<h3>All done! Thanks!</h3>
+</div>
+
